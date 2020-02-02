@@ -1,0 +1,11 @@
+#!/bin/bash
+
+stat -c "%y %n" $1
+
+for i in $(ls -a $2); do
+	echo -e "\nChecking file $i ...\n"
+	if [ $i -nt $1 ]; then
+		stat -c "%y %n" $i
+	fi
+done
+
