@@ -1,17 +1,27 @@
 #!/bin/bash
 
-
-
-if [[ "$1" = "-n[123]" ]]; then
+if [[ "$1" == "-n"* ]]; then
 	number_of_lines=$(echo $1 | cut -c 3-)
+	echo "flag accepted"
 	start_line=$2
+	shift
+	shift
 else
 	number_of_lines=10
-	start_line=$1	
+	start_line=$1
+	shift	
 fi
+
+echo -e "Printing $number_of_lines lines starting from line $start_line \n"
 
 for i in $@
 do
-	cat $filename | tail -n[line to start from] | head -n[how many lines left]
+
+	echo -e "Processing file $i \n"
+
+	total_lines=$(cat $i | wc -l)
+	tail_from=$(($total_lines - $start_line + 1))
+	cat "$i" | tail -n$tail_from | head -n$number_of_lines
+	
 done
 
