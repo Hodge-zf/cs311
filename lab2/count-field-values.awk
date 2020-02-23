@@ -7,13 +7,17 @@ BEGIN {
 	delete ARGV[1]
 }
 
-{FS = "," }
+{ FS = "," }
 
-{ for (i in ARGV)
+{
 	for (j in fields_array)
-		{ print $fields_array[j] } ARGV[i]
+			if (FNR > 1)
+				{ value_count[$fields_array[j]]++ }
+	
 }
 
-END {
-	printf "end"
+END { 
+	for(i in value_count) 
+		print value_count[i],i
+	
 }
